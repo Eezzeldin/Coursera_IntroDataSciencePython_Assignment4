@@ -59,3 +59,6 @@ print (z.head())
 print ("=="*20)
 s = (204400.0 + 207000.0  + 209800.0) / 3
 print ('mean:{}'.format(s))
+print ("=="*20)
+p = [myhouses ['2000q1'].iloc [x].mean()  for x in range(13147)]
+print (p)
