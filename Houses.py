@@ -6,6 +6,7 @@ path      = '/Users/emadezzeldin/Emad Dropbox/Emad Mohamed/Automating_Applying/c
 filename  = 'City_Zhvi_AllHomes.csv'
 housesfile= path + filename
 houses    = pd.read_csv (housesfile)
+
 def trimdf (houses):
     columns = houses.columns
     numcol  = columns [8:]
@@ -17,6 +18,7 @@ def trimdf (houses):
     wantedcol = wantedcol + ['RegionID','RegionName'	,'State'	,'Metro'	,'CountyName'	,'SizeRank']
     c.WantedCols (houses,wantedcol)
     return houses
+
 houses    = trimdf(houses)
 #print (houses)
 
@@ -28,7 +30,7 @@ def convertoquarters (houses):
     #print (houses.columns[6:])
     #print ('2000-01'.replace ('-01',Quarter['-01']))
     replacement   = [str (col).replace ('-' + str(col).split('-')[1],Quarter ['-'+str(col).split('-')[1]]) for col in houses.columns[6:] ]
-    print (replacement)
+    #print (replacement)
     original      = houses.columns[6:]
 
     def getReplacementDictionary(original):
@@ -37,9 +39,23 @@ def convertoquarters (houses):
         for i in range(len(original)):
             myreplacementdict [original[i]] = replacement [i]
         return myreplacementdict
-    print   (getReplacementDictionary(original))
+    #print   (getReplacementDictionary(original))
     myreplacementdict = getReplacementDictionary(original)
     houses.rename(columns = myreplacementdict,inplace=True)
     #print (houses)
     return houses
-print (convertoquarters (houses))
+#print (convertoquarters (houses))
+
+myhouses   = convertoquarters (houses)
+#print (myhouses)
+
+x = myhouses ['2000q1'].transpose().mean().transpose()
+#print (x)
+y = myhouses ['2000q1'].iloc[1].mean()
+print (y)
+print ("=="*20)
+z = myhouses ['2000q1']
+print (z.head())
+print ("=="*20)
+s = (204400.0 + 207000.0  + 209800.0) / 3
+print ('mean:{}'.format(s))
