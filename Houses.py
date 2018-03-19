@@ -51,24 +51,8 @@ myhouses   = convertoquarters (houses)
 
 h  = set ([col for col in myhouses.columns [6:]])
 print (h)
-x = (myhouses.loc[:,h].transpose().reset_index().groupby('index').mean().transpose().join(myhouses.iloc [:,1:5]))
+x = (myhouses.loc[:,h].transpose().reset_index().groupby('index').mean().transpose().join(myhouses.iloc [:,0:6]))
 print (x.head())
 print ("=="*20)
-y = myhouses.iloc [:,1:5]
-print (y.head())
-print ("=="*20)
-z = myhouses ['2000q1']
-print (z.head())
-print ("=="*20)
-s = (204400.0 + 207000.0  + 209800.0) / 3
-print ('mean:{}'.format(s))
-print ("=="*20)
-#p = [myhouses [col].iloc [x].mean()  for x in range(13147)]
-#print (p)
-h  = set ([col for col in myhouses.columns [6:]])
-print (h)
-u  = [[myhouses [col].iloc [x].mean()  for x in range(2)] for col in h]
-print (u)
-def getaverages (col):
-    t = [myhouses [col].iloc [x].mean()  for x in range(500)]
-    return t
+y = (x.set_index (['State','RegionName']).dropna().iloc[:,:67])
+print (y)
