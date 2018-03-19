@@ -49,10 +49,13 @@ def convertoquarters (houses):
 myhouses   = convertoquarters (houses)
 #print (myhouses)
 
-x = myhouses ['2000q1'].transpose().mean().transpose()
-#print (x)
-y = myhouses ['2000q1'].iloc[1].mean()
-print (y)
+h  = set ([col for col in myhouses.columns [6:]])
+print (h)
+x = (myhouses.loc[:,h].transpose().reset_index().groupby('index').mean().transpose().join(myhouses.iloc [:,1:5]))
+print (x.head())
+print ("=="*20)
+y = myhouses.iloc [:,1:5]
+print (y.head())
 print ("=="*20)
 z = myhouses ['2000q1']
 print (z.head())
@@ -60,5 +63,12 @@ print ("=="*20)
 s = (204400.0 + 207000.0  + 209800.0) / 3
 print ('mean:{}'.format(s))
 print ("=="*20)
-p = [myhouses ['2000q1'].iloc [x].mean()  for x in range(13147)]
-print (p)
+#p = [myhouses [col].iloc [x].mean()  for x in range(13147)]
+#print (p)
+h  = set ([col for col in myhouses.columns [6:]])
+print (h)
+u  = [[myhouses [col].iloc [x].mean()  for x in range(2)] for col in h]
+print (u)
+def getaverages (col):
+    t = [myhouses [col].iloc [x].mean()  for x in range(500)]
+    return t
