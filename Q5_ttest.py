@@ -112,27 +112,11 @@ def convert_housing_data_to_quarters():
     return y
 University_Towns = get_list_of_university_towns()
 HousingPrices    = convert_housing_data_to_quarters()
-# print (University_Towns.head())
-# print ("=="*20)
-# #print (HousingPrices.head())
-# print ("**"*20)
 HousingPrices_Recession = WantedCols (HousingPrices,['2008q1','2008q2','2008q3','2008q4','2009q1','2009q2'])
-# print (HousingPrices_Recession.head())
 
-_set    = University_Towns
-sub_set = (HousingPrices_Recession.reset_index().iloc[:,0:2])
-# print (_set.head())
-# print ("=="*20)
-# print (sub_set.head())
-sub_list= sub_set.to_records(index=False).tolist()
-#print (_set.head())
-# print ("=="*20)
-#group1 = _set.loc [sub_list]
-group1 = _set.loc [_set.index.isin(sub_list)]
-group2 = _set.loc [-_set.index.isin(sub_list)]
-print (group1)
-print ("=="*20)
-print ("=="*20)
-print ("=="*20)
-print ("=="*20)
-print (group2)
+df = pd.merge (HousingPrices_Recession.reset_index() , University_Towns , on = University_Towns.columns.tolist(), indicator = '_flag' , how='outer')
+group1 = df [df._flag == 'both']       # a state university
+group2 = df [df._flag ==  'left_only'] # not a state university
+print (group1.head())
+print ('=='*40)
+print (group2.head())
