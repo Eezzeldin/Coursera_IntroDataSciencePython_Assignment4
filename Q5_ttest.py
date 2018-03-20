@@ -104,7 +104,7 @@ def convert_housing_data_to_quarters():
     #print (h)
     x = (myhouses.loc[:,h].transpose().reset_index().groupby('index').mean().transpose().join(myhouses.iloc [:,0:6]))
     #print (x.head())
-    print ("=="*20)
+    #print ("=="*20)
     y = (x.set_index (['State','RegionName']).iloc[:,:67])
     #print (y.head())
     #print (y.shape)
@@ -112,10 +112,27 @@ def convert_housing_data_to_quarters():
     return y
 University_Towns = get_list_of_university_towns()
 HousingPrices    = convert_housing_data_to_quarters()
-print (University_Towns.head())
-print ("=="*20)
-print (HousingPrices.head())
+# print (University_Towns.head())
+# print ("=="*20)
+# #print (HousingPrices.head())
+# print ("**"*20)
+HousingPrices_Recession = WantedCols (HousingPrices,['2008q1','2008q2','2008q3','2008q4','2009q1','2009q2'])
+# print (HousingPrices_Recession.head())
 
-print ("**"*20)
-x = WantedCols (HousingPrices,['2008q2','2008q3','2008q4','2009q1','2009q2','2009q3','2009q4'])
-print (x.head())
+_set    = University_Towns
+sub_set = (HousingPrices_Recession.reset_index().iloc[:,0:2])
+# print (_set.head())
+# print ("=="*20)
+# print (sub_set.head())
+sub_list= sub_set.to_records(index=False).tolist()
+#print (_set.head())
+# print ("=="*20)
+#group1 = _set.loc [sub_list]
+group1 = _set.loc [_set.index.isin(sub_list)]
+group2 = _set.loc [-_set.index.isin(sub_list)]
+print (group1)
+print ("=="*20)
+print ("=="*20)
+print ("=="*20)
+print ("=="*20)
+print (group2)
