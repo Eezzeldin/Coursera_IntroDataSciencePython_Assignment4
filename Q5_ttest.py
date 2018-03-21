@@ -121,13 +121,16 @@ print (group1.head())
 print ('=='*40)
 print (group2.head())
 
+group1.fillna (0,inplace=True)
+group2.fillna (0,inplace=True)
+
 #https://www.coursera.org/learn/python-data-analysis/discussions/weeks/4/threads/F6mWJ7SbEeeKBBKJgknU5g
 #hdf['PriceRatio'] = hdf[qrt_bfr_rec_start].div(hdf[rec_bottom])
-group1 ['PriceRatio'] = group1['2008q1'] / group1['2009q2']
-group2 ['PriceRatio'] = group2['2008q1'] / group2['2009q2']
+group1 ['PriceRatio'] = group1['2008q2'] / group1['2009q2']
+group2 ['PriceRatio'] = group2['2008q2'] / group2['2009q2']
 print (group1.head())
 print ('**'*40)
 print (group2.head())
 
-x = scipy.stats.ttest_ind (group2['PriceRatio'],group1['PriceRatio'],nan_policy = 'omit')
+x = scipy.stats.ttest_ind (group1['PriceRatio'],group2['PriceRatio'],nan_policy = 'omit')
 print (x)
