@@ -115,11 +115,19 @@ HousingPrices    = convert_housing_data_to_quarters()
 HousingPrices_Recession = WantedCols (HousingPrices,['2008q1','2008q2','2008q3','2008q4','2009q1','2009q2'])
 
 df = pd.merge (HousingPrices_Recession.reset_index() , University_Towns , on = University_Towns.columns.tolist(), indicator = '_flag' , how='outer')
-group1 = (df [df._flag == 'both'].set_index (['State','RegionName']).iloc [:,:-1].mean(axis=1) )      # a state university
-group2 = (df [df._flag ==  'left_only'].set_index (['State','RegionName']).iloc[:,:-1].mean(axis=1)) # not a state university
+group1 = (df [df._flag == 'both'].set_index (['State','RegionName']).iloc [:,:-1])      # a state university
+group2 = (df [df._flag ==  'left_only'].set_index (['State','RegionName']).iloc[:,:-1]) # not a state university
 print (group1.head())
 print ('=='*40)
 print (group2.head())
 
-x = scipy.stats.ttest_ind (group1,group2,nan_policy = 'omit')
+#https://www.coursera.org/learn/python-data-analysis/discussions/weeks/4/threads/F6mWJ7SbEeeKBBKJgknU5g
+#hdf['PriceRatio'] = hdf[qrt_bfr_rec_start].div(hdf[rec_bottom])
+group1 ['PriceRatio'] = group1['2008q1'] / group1['2009q2']
+group2 ['PriceRatio'] = group2['2008q1'] / group2['2009q2']
+print (group1.head())
+print ('**'*40)
+print (group2.head())
+
+x = scipy.stats.ttest_ind (group2['PriceRatio'],group1['PriceRatio'],nan_policy = 'omit')
 print (x)
